@@ -30,6 +30,29 @@ topImage.BackgroundTransparency = 1
 topImage.Image = "rbxassetid://YOUR_IMAGE_ID" -- Replace with your image asset ID
 topImage.Parent = background
 
+-- Progress Bar Fill
+local fill = Instance.new("Frame", progressBarBg)
+fill.Size = UDim2.new(0, 0, 1, 0)
+fill.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+fill.BorderSizePixel = 0
+fill.Name = "Fill"
+fill.BackgroundTransparency = 0
+fill:ApplyStroke()
+
+-- Percent Text
+local percentText = Instance.new("TextLabel", bg)
+percentText.Text = "1%"
+percentText.Font = Enum.Font.GothamBold
+percentText.TextColor3 = Color3.new(1, 1, 1)
+percentText.TextScaled = true
+percentText.BackgroundTransparency = 1
+percentText.Size = UDim2.new(0.3, 0, 0.1, 0)
+percentText.Position = UDim2.new(0.35, 0, 0.62, 0)
+
+-- Loading Logic
+local duration = 7 * 60 -- 7 phút = 420 giây
+local currentPercent = 1
+
 -- Spinner
 local spinner = Instance.new("ImageLabel")
 spinner.AnchorPoint = Vector2.new(0.5, 0.5)
