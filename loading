@@ -1,0 +1,66 @@
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Disable default CoreGui elements
+local StarterGui = game:GetService("StarterGui")
+StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, false)
+
+-- Create loading ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "FullscreenLoadingUI"
+screenGui.ResetOnSpawn = false
+screenGui.IgnoreGuiInset = true
+screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+screenGui.DisplayOrder = 1000 -- Make sure it's on top
+screenGui.Parent = playerGui
+
+-- Fullscreen black background
+local background = Instance.new("Frame")
+background.Size = UDim2.new(1, 0, 1, 0)
+background.BackgroundColor3 = Color3.new(0, 0, 0)
+background.BorderSizePixel = 0
+background.Parent = screenGui
+
+-- Top Image (your carrot image)
+local topImage = Instance.new("ImageLabel")
+topImage.AnchorPoint = Vector2.new(0.5, 0)
+topImage.Position = UDim2.new(0.5, 0, 0.05, 0)
+topImage.Size = UDim2.new(0, 400, 0, 100)
+topImage.BackgroundTransparency = 1
+topImage.Image = "rbxassetid://YOUR_IMAGE_ID" -- Replace with your image asset ID
+topImage.Parent = background
+
+-- Spinner
+local spinner = Instance.new("ImageLabel")
+spinner.AnchorPoint = Vector2.new(0.5, 0.5)
+spinner.Position = UDim2.new(0.5, 0, 0.45, 0)
+spinner.Size = UDim2.new(0, 100, 0, 100)
+spinner.BackgroundTransparency = 1
+spinner.Image = "rbxassetid://7743870609" -- Glowing spinner
+spinner.ImageColor3 = Color3.new(1, 1, 1)
+spinner.Parent = background
+
+-- Loading text
+local loadingLabel = Instance.new("TextLabel")
+loadingLabel.AnchorPoint = Vector2.new(0.5, 0)
+loadingLabel.Position = UDim2.new(0.5, 0, 0.55, 0)
+loadingLabel.Size = UDim2.new(0, 500, 0, 60)
+loadingLabel.BackgroundTransparency = 1
+loadingLabel.Text = "GROW A GARDEN SCRIPT LOADING PLS WAIT"
+loadingLabel.TextColor3 = Color3.new(1, 1, 1)
+loadingLabel.Font = Enum.Font.GothamBold
+loadingLabel.TextSize = 24
+loadingLabel.TextWrapped = true
+loadingLabel.TextXAlignment = Enum.TextXAlignment.Center
+loadingLabel.TextYAlignment = Enum.TextYAlignment.Center
+loadingLabel.Parent = background
+
+-- Spinner animation
+coroutine.wrap(function()
+	while spinner do
+		for i = 0, 360, 2 do
+			spinner.Rotation = i
+			task.wait(0.01)
+		end
+	end
+end)()
