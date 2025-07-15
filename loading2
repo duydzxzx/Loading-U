@@ -12,6 +12,12 @@ screenGui.ResetOnSpawn = false
 screenGui.IgnoreGuiInset = true
 screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 screenGui.DisplayOrder = 1000 -- Make sure it's on top
+
+-- (For executor only – optional)
+if syn and syn.protect_gui then
+	syn.protect_gui(screenGui)
+end
+
 screenGui.Parent = playerGui
 
 -- Fullscreen black background
@@ -21,37 +27,14 @@ background.BackgroundColor3 = Color3.new(0, 0, 0)
 background.BorderSizePixel = 0
 background.Parent = screenGui
 
--- Top Image (your carrot image)
+-- Top Image (carrot image)
 local topImage = Instance.new("ImageLabel")
 topImage.AnchorPoint = Vector2.new(0.5, 0)
 topImage.Position = UDim2.new(0.5, 0, 0.05, 0)
 topImage.Size = UDim2.new(0, 400, 0, 100)
 topImage.BackgroundTransparency = 1
-topImage.Image = "rbxassetid://YOUR_IMAGE_ID" -- Replace with your image asset ID
+topImage.Image = "rbxassetid://1234567890" -- Replace with your image asset ID
 topImage.Parent = background
-
--- Progress Bar Fill
-local fill = Instance.new("Frame", progressBarBg)
-fill.Size = UDim2.new(0, 0, 1, 0)
-fill.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-fill.BorderSizePixel = 0
-fill.Name = "Fill"
-fill.BackgroundTransparency = 0
-fill:ApplyStroke()
-
--- Percent Text
-local percentText = Instance.new("TextLabel", bg)
-percentText.Text = "1%"
-percentText.Font = Enum.Font.GothamBold
-percentText.TextColor3 = Color3.new(1, 1, 1)
-percentText.TextScaled = true
-percentText.BackgroundTransparency = 1
-percentText.Size = UDim2.new(0.3, 0, 0.1, 0)
-percentText.Position = UDim2.new(0.35, 0, 0.62, 0)
-
--- Loading Logic
-local duration = 7 * 60 -- 7 phút = 420 giây
-local currentPercent = 1
 
 -- Spinner
 local spinner = Instance.new("ImageLabel")
@@ -59,7 +42,7 @@ spinner.AnchorPoint = Vector2.new(0.5, 0.5)
 spinner.Position = UDim2.new(0.5, 0, 0.45, 0)
 spinner.Size = UDim2.new(0, 100, 0, 100)
 spinner.BackgroundTransparency = 1
-spinner.Image = "rbxassetid://7743870609" -- Glowing spinner
+spinner.Image = "rbxassetid://7743870609"
 spinner.ImageColor3 = Color3.new(1, 1, 1)
 spinner.Parent = background
 
@@ -78,6 +61,33 @@ loadingLabel.TextXAlignment = Enum.TextXAlignment.Center
 loadingLabel.TextYAlignment = Enum.TextYAlignment.Center
 loadingLabel.Parent = background
 
+-- Progress Bar Background
+local progressBarBg = Instance.new("Frame")
+progressBarBg.Size = UDim2.new(0.6, 0, 0.03, 0)
+progressBarBg.Position = UDim2.new(0.2, 0, 0.7, 0)
+progressBarBg.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+progressBarBg.BorderSizePixel = 0
+progressBarBg.Parent = background
+progressBarBg.ClipsDescendants = true
+
+-- Progress Bar Fill
+local progressBar = Instance.new("Frame")
+progressBar.Size = UDim2.new(0, 0, 1, 0)
+progressBar.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+progressBar.BorderSizePixel = 0
+progressBar.Parent = progressBarBg
+
+-- Percent Text
+local percentText = Instance.new("TextLabel")
+percentText.Text = "1%"
+percentText.Font = Enum.Font.GothamBold
+percentText.TextColor3 = Color3.new(1, 1, 1)
+percentText.TextScaled = true
+percentText.BackgroundTransparency = 1
+percentText.Size = UDim2.new(0.2, 0, 0.05, 0)
+percentText.Position = UDim2.new(0.4, 0, 0.74, 0)
+percentText.Parent = background
+
 -- Spinner animation
 coroutine.wrap(function()
 	while spinner do
@@ -87,3 +97,17 @@ coroutine.wrap(function()
 		end
 	end
 end)()
+
+-- Progress bar logic
+local totalDuration = 420 -- 7 phút
+for i = 1, 100 do
+	progressBar:TweenSize(
+		UDim2.new(i / 100, 0, 1, 0),
+		Enum.EasingDirection.Out,
+		Enum.EasingStyle.Linear,
+		totalDuration / 100,
+		true
+	)
+	percentText.Text = tostring(i) .. "%"
+	wait(totalDuration / 100)
+end
