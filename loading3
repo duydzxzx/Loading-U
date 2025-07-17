@@ -5,11 +5,6 @@ local playerGui = player:WaitForChild("PlayerGui")
 local StarterGui = game:GetService("StarterGui")
 StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, false)
 
--- Mute game sounds during loading
-local SoundService = game:GetService("SoundService")
-local originalVolume = SoundService.Volume
-SoundService.Volume = 0
-
 -- Create ScreenGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "FullscreenLoadingUI"
@@ -47,7 +42,7 @@ titleLabel.TextXAlignment = Enum.TextXAlignment.Center
 titleLabel.TextYAlignment = Enum.TextYAlignment.Center
 titleLabel.Parent = background
 
--- Subtitle: Script Is Loading...
+-- Subtitle
 local subText = Instance.new("TextLabel")
 subText.AnchorPoint = Vector2.new(0.5, 0)
 subText.Position = UDim2.new(0.5, 0, 0.48, 0)
@@ -62,7 +57,7 @@ subText.TextXAlignment = Enum.TextXAlignment.Center
 subText.TextYAlignment = Enum.TextYAlignment.Center
 subText.Parent = background
 
--- Spinner (ảnh mèo)
+-- Spinner (cat image)
 local spinner = Instance.new("ImageLabel")
 spinner.AnchorPoint = Vector2.new(0.5, 0.5)
 spinner.Position = UDim2.new(0.5, 0, 0.6, 0)
@@ -117,7 +112,7 @@ percentText.Size = UDim2.new(0.2, 0, 0.05, 0)
 percentText.Position = UDim2.new(0.4, 0, 0.8, 0)
 percentText.Parent = background
 
--- Progress Logic: 1% → 100% in 300 seconds
+-- Progress Logic (1% -> 100% over 300 seconds)
 local totalDuration = 300
 for i = 1, 100 do
 	progressBar:TweenSize(
@@ -130,6 +125,3 @@ for i = 1, 100 do
 	percentText.Text = tostring(i) .. "%"
 	wait(totalDuration / 100)
 end
-
--- Restore sound after loading ends
-SoundService.Volume = originalVolume
