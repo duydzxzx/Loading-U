@@ -42,7 +42,7 @@ titleLabel.TextXAlignment = Enum.TextXAlignment.Center
 titleLabel.TextYAlignment = Enum.TextYAlignment.Center
 titleLabel.Parent = background
 
--- Subtitle
+-- Subtitle: Script Is Loading...
 local subText = Instance.new("TextLabel")
 subText.AnchorPoint = Vector2.new(0.5, 0)
 subText.Position = UDim2.new(0.5, 0, 0.48, 0)
@@ -57,7 +57,7 @@ subText.TextXAlignment = Enum.TextXAlignment.Center
 subText.TextYAlignment = Enum.TextYAlignment.Center
 subText.Parent = background
 
--- Spinner (cat image)
+-- Spinner (ảnh mèo)
 local spinner = Instance.new("ImageLabel")
 spinner.AnchorPoint = Vector2.new(0.5, 0.5)
 spinner.Position = UDim2.new(0.5, 0, 0.6, 0)
@@ -86,6 +86,7 @@ progressBarBg.BorderSizePixel = 0
 progressBarBg.ClipsDescendants = true
 progressBarBg.Parent = background
 
+-- Rounded corners
 local bgCorner = Instance.new("UICorner")
 bgCorner.CornerRadius = UDim.new(0, 12)
 bgCorner.Parent = progressBarBg
@@ -112,8 +113,8 @@ percentText.Size = UDim2.new(0.2, 0, 0.05, 0)
 percentText.Position = UDim2.new(0.4, 0, 0.8, 0)
 percentText.Parent = background
 
--- Progress Logic (1% -> 100% over 300 seconds)
-local totalDuration = 300
+-- Progress Logic: 1% → 100% in 240 seconds
+local totalDuration = 240
 for i = 1, 100 do
 	progressBar:TweenSize(
 		UDim2.new(i / 100, 0, 1, 0),
