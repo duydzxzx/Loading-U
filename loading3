@@ -1,6 +1,13 @@
 local player = game.Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
+-- Xóa toàn bộ UI mặc định của game trong PlayerGui (trừ UI loading)
+for _, child in ipairs(playerGui:GetChildren()) do
+	if child:IsA("ScreenGui") and child.Name ~= "FullscreenLoadingUI" then
+		child:Destroy()
+	end
+end
+
 -- Disable CoreGui
 local StarterGui = game:GetService("StarterGui")
 StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, false)
@@ -42,7 +49,7 @@ titleLabel.TextXAlignment = Enum.TextXAlignment.Center
 titleLabel.TextYAlignment = Enum.TextYAlignment.Center
 titleLabel.Parent = background
 
--- Subtitle: Script Is Loading...
+-- Subtitle
 local subText = Instance.new("TextLabel")
 subText.AnchorPoint = Vector2.new(0.5, 0)
 subText.Position = UDim2.new(0.5, 0, 0.48, 0)
@@ -86,7 +93,7 @@ progressBarBg.BorderSizePixel = 0
 progressBarBg.ClipsDescendants = true
 progressBarBg.Parent = background
 
--- Rounded corners
+-- Rounded corners for background
 local bgCorner = Instance.new("UICorner")
 bgCorner.CornerRadius = UDim.new(0, 12)
 bgCorner.Parent = progressBarBg
@@ -98,6 +105,7 @@ progressBar.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 progressBar.BorderSizePixel = 0
 progressBar.Parent = progressBarBg
 
+-- Rounded corners for fill
 local fillCorner = Instance.new("UICorner")
 fillCorner.CornerRadius = UDim.new(0, 12)
 fillCorner.Parent = progressBar
@@ -126,3 +134,9 @@ for i = 1, 100 do
 	percentText.Text = tostring(i) .. "%"
 	wait(totalDuration / 100)
 end
+
+-- Sau khi loading xong: bật lại CoreGui
+StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, true)
+
+-- (Tuỳ chọn) Không xoá UI loading nếu bạn muốn giữ 100% mãi
+-- screenGui:Destroy()
