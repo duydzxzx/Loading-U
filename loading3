@@ -5,6 +5,11 @@ local playerGui = player:WaitForChild("PlayerGui")
 local StarterGui = game:GetService("StarterGui")
 StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, false)
 
+-- Mute game sounds during loading
+local SoundService = game:GetService("SoundService")
+local originalVolume = SoundService.Volume
+SoundService.Volume = 0
+
 -- Create ScreenGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "FullscreenLoadingUI"
@@ -86,7 +91,6 @@ progressBarBg.BorderSizePixel = 0
 progressBarBg.ClipsDescendants = true
 progressBarBg.Parent = background
 
--- Rounded corners
 local bgCorner = Instance.new("UICorner")
 bgCorner.CornerRadius = UDim.new(0, 12)
 bgCorner.Parent = progressBarBg
@@ -113,8 +117,8 @@ percentText.Size = UDim2.new(0.2, 0, 0.05, 0)
 percentText.Position = UDim2.new(0.4, 0, 0.8, 0)
 percentText.Parent = background
 
--- Progress Logic: 1% → 100% in 7 minutes
-local totalDuration = 420
+-- Progress Logic: 1% → 100% in 300 seconds
+local totalDuration = 300
 for i = 1, 100 do
 	progressBar:TweenSize(
 		UDim2.new(i / 100, 0, 1, 0),
@@ -126,3 +130,6 @@ for i = 1, 100 do
 	percentText.Text = tostring(i) .. "%"
 	wait(totalDuration / 100)
 end
+
+-- Restore sound after loading ends
+SoundService.Volume = originalVolume
